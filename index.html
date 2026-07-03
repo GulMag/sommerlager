@@ -3,31 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Party</title>
+    <title>Welcome to my Homepage</title>
     <style>
-        body { 
-            font-family: sans-serif; 
-            background: url('somsi_bird Small.png') no-repeat center center fixed; 
-            background-size: cover; 
-            color: #fff; 
-            text-align: center; 
-            padding: 50px; 
-        }
-        .card { background: #1e1e1e; max-width: 500px; margin: auto; padding: 30px; border-radius: 10px; }
-        h1 { color: #ff4757; }
-        .btn { display: inline-block; padding: 10px 20px; background: #ff4757; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+        body { background-color: #008080; font-family: "Times New Roman", Times, serif; color: #000; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 90vh; }
+        .win95-window { background: #c0c0c0; border: 3px solid; border-color: #fff #808080 #808080 #fff; width: 450px; padding: 2px; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .title-bar { background: linear-gradient(90deg, #000080, #1084d0); color: white; padding: 3px 6px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .title-btn { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; font-size: 11px; width: 16px; height: 14px; text-align: center; line-height: 10px; cursor: pointer; font-weight: bold; color: black; }
+        .window-body { padding: 15px; background: #c0c0c0; text-align: left; }
+        .fieldset { border: 2px solid; border-color: #808080 #fff #fff #808080; padding: 15px; margin-bottom: 15px; background: #dfdfdf; }
+        legend { background: #c0c0c0; padding: 0 5px; font-weight: bold; }
+        h1 { font-size: 22px; margin: 0 0 10px 0; color: #000080; text-align: center; }
+        p { margin: 8px 0; font-size: 16px; }
+        .btn-95 { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; padding: 5px 15px; font-family: "Times New Roman"; font-size: 14px; cursor: pointer; display: block; width: fit-content; margin: 15px auto 0 auto; text-decoration: none; color: black; font-weight: bold; }
+        .btn-95:active { border-color: #808080 #fff #fff #808080; padding: 6px 14px 4px 16px; }
+        marquee { background: yellow; border: 1px solid #808080; padding: 2px; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>You are Invited! 🥳</h1>
-        <p><strong>What:</strong> Private Party</p>
-        <p><strong>When:</strong> Saturday, July 11th at 8:00 PM</p>
-        <p><strong>Where:</strong> Secret Location, Vienna</p>
-        <hr>
-        <p>Please let us know if you can make it!</p>
-        <a href="mailto:your-email@://example.com RSVP" class="btn">RSVP via Email</a>
+    <div class="win95-window">
+        <div class="title-bar">
+            <span>PARTY_INVITATION.EXE</span>
+            <div class="title-btn">X</div>
+        </div>
+        <div class="window-body">
+            <marquee scrollamount="3">!!! YOU HAVE BEEN INVITED TO A PRIVATE EVENT !!!</marquee>
+            
+            <h1>Party Setup v1.0</h1>
+            
+            <div class="fieldset">
+                <legend>Event Properties</legend>
+                <p><strong>File Name:</strong> Secret_Party_2026</p>
+                <p><strong>Date:</strong> Saturday, July 11th</p>
+                <p><strong>Time:</strong> 20:00 HRS CET</p>
+                <p><strong>Location:</strong> Vienna, Austria</p>
+            </div>
+
+            <p style="text-align: center;">Clicking OK confirms you will bring good vibes.</p>
+            
+            <a href="mailto:your-email@://example.com OK" class="btn-95">OK (RSVP)</a>
+        </div>
     </div>
 
 </body>
