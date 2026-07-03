@@ -5,43 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SNAKE.EXE</title>
     <style>
-        body { background: #c0c0c0; font-family: "Times New Roman", Times, serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .score-board { font-family: monospace; font-size: 14px; text-align: center; margin-bottom: 5px; color: #000; font-weight: bold; }
-        canvas { background: #fff; display: block; margin: 0 auto; border: 2px solid #000; }
-        .btn-game { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; font-family: "Times New Roman"; font-size: 14px; cursor: pointer; color: black; font-weight: bold; }
+        body { background: #c0c0c0; font-family: "Times New Roman", Times, serif; margin: 0; padding: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+        .score-board { font-family: monospace; font-size: 12px; text-align: center; margin-bottom: 3px; color: #000; font-weight: bold; }
+        
+        /* Flexbox-Layout: Setzt Controls und Canvas nebeneinander */
+        .game-container { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+        .side-controls { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+        
+        canvas { background: #fff; display: block; border: 2px solid #000; }
+        
+        .btn-game { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; font-family: "Times New Roman"; font-size: 11px; cursor: pointer; color: black; font-weight: bold; width: 32px; height: 24px; display: flex; align-items: center; justify-content: center; padding: 0; }
         .btn-game:active { border-color: #808080 #fff #fff #808080; }
+        .btn-long { width: 45px; height: 22px; }
     </style>
 </head>
 <body>
 
     <div class="score-board">SCORE: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="210" height="210"></canvas>
     
-    <!-- Play/Stop Buttons -->
-    <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-        <button class="btn-game" id="startBtn" onclick="startGame()" style="padding:2px 10px;">Play</button>
-        <button class="btn-game" id="stopBtn" onclick="stopGame()" style="padding:2px 10px;">Stop</button>
-    </div>
-    
-    <!-- NEU: D-Pad / Steuerkreuz für Smartphones -->
-    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
-        <button class="btn-game" onclick="changeDir(0, -grid)" style="width: 40px; height: 30px; margin-bottom: 5px;">▲</button>
-        <div style="display: flex; gap: 20px;">
-            <button class="btn-game" onclick="changeDir(-grid, 0)" style="width: 40px; height: 30px;">◀</button>
-            <button class="btn-game" onclick="changeDir(grid, 0)" style="width: 40px; height: 30px;">▶</button>
+    <div class="game-container">
+        <!-- LINKER BEREICH: Alle Knöpfe kompakt untereinander -->
+        <div class="side-controls">
+            <!-- System Buttons -->
+            <button class="btn-game btn-long" id="startBtn" onclick="startGame()">Play</button>
+            <button class="btn-game btn-long" id="stopBtn" onclick="stopGame()" style="margin-bottom: 5px;">Stop</button>
+            
+            <!-- Kompaktes D-Pad Steuerkreuz -->
+            <button class="btn-game" onclick="changeDir(0, -grid)">▲</button>
+            <div style="display: flex; gap: 4px;">
+                <button class="btn-game" onclick="changeDir(-grid, 0)">◀</button>
+                <button class="btn-game" onclick="changeDir(grid, 0)">▶</button>
+            </div>
+            <button class="btn-game" onclick="changeDir(0, grid)">▼</button>
         </div>
-        <button class="btn-game" onclick="changeDir(0, grid)" style="width: 40px; height: 30px; margin-top: 5px;">▼</button>
-    </div>
 
+        <!-- RECHTER BEREICH: Das herausgezoomte Spielfeld (150x150) -->
+        <canvas id="gameCanvas" width="150" height="150"></canvas>
+    </div>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-        const grid = 15;
+        
+        /* ZURÜCK-GEZOOMT: Grid von 15 auf 10 verkleinert */
+        const grid = 10; 
         let score = 0;
-        let snake = [{x: 105, y: 105}, {x: 90, y: 105}, {x: 75, y: 105}];
+        /* Startposition an das neue 10er Raster angepasst */
+        let snake = [{x: 70, y: 70}, {x: 60, y: 70}, {x: 50, y: 70}];
         let dx = grid, dy = 0;
-        let food = {x: 45, y: 45};
+        let food = {x: 30, y: 30};
         let gameInterval = null;
         let isRunning = false;
 
@@ -74,22 +86,20 @@
 
         function startGame() { if(!isRunning) { gameInterval = setInterval(gameLoop, 120); isRunning = true; } }
         function stopGame() { clearInterval(gameInterval); isRunning = false; }
-        function resetGame() { snake = [{x: 105, y: 105}, {x: 90, y: 105}, {x: 75, y: 105}]; dx = grid; dy = 0; score = 0; document.getElementById("score").innerHTML = score; clearCanvas(); drawSnake(); }
+        function resetGame() { snake = [{x: 70, y: 70}, {x: 60, y: 70}, {x: 50, y: 70}]; dx = grid; dy = 0; score = 0; document.getElementById("score").innerHTML = score; clearCanvas(); drawSnake(); }
 
-        // Funktion für die Handy-Tastensteuerung
         function changeDir(newDx, newDy) {
             if (!isRunning) return;
-            // Verhindert, dass sich die Schlange in die entgegengesetzte Richtung selbst frisst
             if (newDx !== 0 && dx === 0) { dx = newDx; dy = 0; }
             if (newDy !== 0 && dy === 0) { dx = 0; dy = newDy; }
         }
-        
+
         document.addEventListener("keydown", e => {
             if(!isRunning) return;
-            if (e.keyCode === 37 && dx === 0) { dx = -grid; dy = 0; }
-            if (e.keyCode === 38 && dy === 0) { dx = 0; dy = -grid; }
-            if (e.keyCode === 39 && dx === 0) { dx = grid; dy = 0; }
-            if (e.keyCode === 40 && dy === 0) { dx = 0; dy = grid; }
+            if (e.keyCode === 37) changeDir(-grid, 0);
+            if (e.keyCode === 38) changeDir(0, -grid);
+            if (e.keyCode === 39) changeDir(grid, 0);
+            if (e.keyCode === 40) changeDir(0, grid);
         });
         clearCanvas(); drawSnake();
     </script>
