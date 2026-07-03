@@ -30,6 +30,24 @@
         
         /* Folder style icon button placement */
         .folder-icon { position: absolute; top: 15px; left: 15px; text-align: center; cursor: pointer; width: 70px; z-index: 10; }
+
+        /* Optimierung für Bildschirme kleiner als 600px (Handys) */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .win95-window {
+                width: 100% !important; /* Fenster nutzen die volle Handybreite */
+                max-width: 360px;
+                margin-left: 0 !important; /* Hebt den Seitenabstand auf */
+            }
+            iframe {
+                height: 340px !important; /* Mehr Platz für Handy-Steuerung */
+            }
+        }
+
     </style>
 </head>
 <body>
