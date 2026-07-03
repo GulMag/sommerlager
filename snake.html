@@ -28,10 +28,21 @@
 </head>
 <body>
 
-    <div class="score-board">SCORE: <span id="score">0</span></div>
+    <!-- Level-Auswahl und Score-Anzeige -->
+    <div class="top-bar">
+        <div>SCORE: <span id="score">0</span></div>
+        <div>
+            LVL: 
+            <select id="levelSelect" onchange="changeLevel()">
+                <option value="160">1 (Slow)</option>
+                <option value="110" selected>2 (Normal)</option>
+                <option value="70">3 (Fast)</option>
+            </select>
+        </div>
+    </div>
     
     <!-- 1) Der extrabreite Screen (Widescreen-Format) -->
-    <canvas id="gameCanvas" width="220" height="110"></canvas>
+    <canvas id="gameCanvas" width="220" height="140"></canvas>
     
     <!-- 2) Die Button-Sektion darunter -->
     <div class="controls-row">
@@ -61,6 +72,7 @@
         let food = {x: 110, y: 50};
         let gameInterval = null;
         let isRunning = false;
+        let gameSpeed = 110; // Standardgeschwindigkeit für Level 2
 
         function gameLoop() {
             if (hasGameEnded()) { 
@@ -93,11 +105,18 @@
             return snake[0].x<0 || snake[0].x>=canvas.width || snake[0].y<0 || snake[0].y>=canvas.height;
         }
 
+        function changeLevel() {
+            const wasRunning = isRunning;
+            if (wasRunning) stopGame(); // Spiel kurz stoppen
+            gameSpeed = parseInt(document.getElementById("levelSelect").value); // Neuen Wert auslesen
+            if (wasRunning) toggleGame(); // Spiel mit neuem Tempo weiterlaufen lassen
+        }
+
         // Steuert den kombinierten Play/Pause Button
         function toggleGame() {
             const btn = document.getElementById("actionBtn");
             if (!isRunning) {
-                gameInterval = setInterval(gameLoop, 130);
+                gameInterval = setInterval(gameLoop, gameSpeed);
                 isRunning = true;
                 btn.innerHTML = "Pause";
             } else {
